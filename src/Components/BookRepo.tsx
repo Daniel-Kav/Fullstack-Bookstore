@@ -2,6 +2,7 @@ import React, { useReducer, useRef, useEffect, useState, useCallback } from 'rea
 import axios from 'axios';
 import '../App.css';  // Make sure this import statement is present
 import { Bars } from 'react-loader-spinner';
+import Pagination from './Pagination';  // Import the Pagination component
 
 export interface Book {
   id: number;
@@ -21,7 +22,7 @@ const bookReducer = (state: Book[], action: Action): Book[] => {
     case 'SET_INITIAL_STATE':
       return action.payload;
     case 'ADD_BOOK':
-      return [...state, action.payload];
+      return [action.payload, ...state];
     case 'UPDATE_BOOK':
       return state.map(book => (book.id === action.payload.id ? action.payload : book));
     case 'DELETE_BOOK':
@@ -165,18 +166,11 @@ const BookRepository: React.FC = () => {
   const handleDeleteBook = async (id: number) => {
     setLoadingSubmit(true);
     try {
-      const response = await axios.delete(`https://hono-bookstore-api.onrender.com/api/books/${id}`);
+      await axios.delete(`https://hono-bookstore-api.onrender.com/api/books/${id}`);
 
-      if (response.status === 200) {
-        fetchBooks();
-        setSuccessMessage('Book deleted successfully!');
-        setTimeout(() => setSuccessMessage(null), 3000);
-      } else {
-        console.error('Failed to delete book:', response.statusText);
-      }
       fetchBooks();
-        setSuccessMessage('Book deleted successfully!');
-        setTimeout(() => setSuccessMessage(null), 3000);
+      setSuccessMessage('Book deleted successfully!');
+      setTimeout(() => setSuccessMessage(null), 5000);
     } catch (error) {
       console.error('Error deleting book:', error);
     } finally {
@@ -189,6 +183,10 @@ const BookRepository: React.FC = () => {
   const booksPerPage = 5;
   const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
   const displayedBooks = filteredBooks.slice((currentPage - 1) * booksPerPage, currentPage * booksPerPage);
+
+  const handleChangePage = (page: number) => {
+    setCurrentPage(page);
+  };
 
   const handleNextPage = useCallback(() => {
     if (currentPage < totalPages) {
@@ -263,17 +261,18 @@ const BookRepository: React.FC = () => {
                 <td>{book.year}</td>
                 <td>
                   <button className="edit-button" onClick={() => handleEditBook(book)}>Edit</button>
-                  <button className="delete-button" onClick={() =>handleDeleteBook(book.id)}>Delete</button>
+                  <button className="delete-button" onClick={() => handleDeleteBook(book.id)}>Delete</button>
                 </td>
               </tr>
             ))}
           </tbody>
         </table>
       )}
-      <div className="pagination">
-        <button onClick={handlePreviousPage} disabled={currentPage === 1}>Previous</button>
-        <button onClick={handleNextPage} disabled={currentPage === totalPages}>Next</button>
-      </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onChangePage={handleChangePage}
+      />
       {loadingSubmit && (
         <div className="spinner-container">
           <Bars
