@@ -1,11 +1,10 @@
 import { Book } from "../components/BookRepository";
 
-
 export type Action =
   | { type: 'SET_INITIAL_STATE'; payload: Book[] }
   | { type: 'ADD_BOOK'; payload: Book }
   | { type: 'UPDATE_BOOK'; payload: Book }
-  | { type: 'DELETE_BOOK'; payload: string };
+  | { type: 'DELETE_BOOK'; payload: number };
 
 const bookReducer = (state: Book[], action: Action): Book[] => {
   switch (action.type) {
