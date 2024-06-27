@@ -1,10 +1,11 @@
 {
-  "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "@components/*": ["src/components/*"],
-      "@reducers/*": ["src/reducers/*"]
+  "files": [],
+  "references": [
+    {
+      "path": "./tsconfig.app.json"
     },
-    "include": ["src"]
-  }
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }
