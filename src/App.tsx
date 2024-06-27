@@ -1,13 +1,13 @@
-// import React from 'react';
-// import './App.css';
-// import BookRepository from './components/BookRepository';
+import React from 'react';
+import BookRepository from './components/BookRepository';
+import './App.css';
 
-// const App: React.FC = () => {
-//   return (
-//     <div className="App">
-//       <BookRepository />
-//     </div>
-//   );
-// }
+const App: React.FC = () => {
+  return (
+    <div className="App">
+      <BookRepository />
+    </div>
+  );
+};
 
-// export default App;
+export default App;
