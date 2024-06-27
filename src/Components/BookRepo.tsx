@@ -1,4 +1,4 @@
-import React, { useReducer, useRef, useEffect, useState, useCallback } from 'react';
+import React, { useReducer, useRef, useEffect, useState} from 'react';
 import axios from 'axios';
 import '../App.css';  // Make sure this import statement is present
 import { Bars } from 'react-loader-spinner';
