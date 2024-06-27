@@ -188,17 +188,6 @@ const BookRepository: React.FC = () => {
     setCurrentPage(page);
   };
 
-  const handleNextPage = useCallback(() => {
-    if (currentPage < totalPages) {
-      setCurrentPage(prevPage => prevPage + 1);
-    }
-  }, [currentPage, totalPages]);
-
-  const handlePreviousPage = useCallback(() => {
-    if (currentPage > 1) {
-      setCurrentPage(prevPage => prevPage - 1);
-    }
-  }, [currentPage]);
 
   return (
     <div className="container">
